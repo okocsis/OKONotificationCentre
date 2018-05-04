@@ -64,7 +64,7 @@ typedef void (^OKOObserverBlock)(_Nullable id sender, _Nullable id userInfo);
 
 @interface OKONotificationCentre(NSNotificationCenterDropInReplacment)
 
-@property (class, readonly, strong) NSNotificationCenter *defaultCenter;
+@property (class, readonly, strong) OKONotificationCentre *defaultCenter;
 
 - (void)addObserver:(id)observer selector:(SEL)aSelector name:(nullable NSNotificationName)aName object:(nullable id)anObject;
 
