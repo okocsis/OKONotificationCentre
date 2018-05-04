@@ -7,9 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C38A326C209A1BC500907685 /* OKOWeakMutableArrayTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C38A326B209A1BC500907685 /* OKOWeakMutableArrayTest.m */; };
+		C38A326F209B9BDD00907685 /* OKONotificationCentre.m in Sources */ = {isa = PBXBuildFile; fileRef = C38A326E209B9BDD00907685 /* OKONotificationCentre.m */; };
+		C38A3271209B9EC700907685 /* NSNotificationCenterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C38A3270209B9EC700907685 /* NSNotificationCenterTests.m */; };
 		C3D369F820973FF7003EB7C4 /* OKONotificationCentre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D369EE20973FF7003EB7C4 /* OKONotificationCentre.framework */; };
-		C3D369FD20973FF7003EB7C4 /* OKONotificationCentreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D369FC20973FF7003EB7C4 /* OKONotificationCentreTests.m */; };
+		C3D369FD20973FF7003EB7C4 /* CommonNotificationCentreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D369FC20973FF7003EB7C4 /* CommonNotificationCentreTests.m */; };
 		C3D369FF20973FF7003EB7C4 /* OKONotificationCentre.h in Headers */ = {isa = PBXBuildFile; fileRef = C3D369F120973FF7003EB7C4 /* OKONotificationCentre.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C3D36A132097434F003EB7C4 /* OKOAssociatedArrayElement.h in Headers */ = {isa = PBXBuildFile; fileRef = C3D36A092097434F003EB7C4 /* OKOAssociatedArrayElement.h */; };
+		C3D36A142097434F003EB7C4 /* OKOAssociatedArrayElement.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D36A0A2097434F003EB7C4 /* OKOAssociatedArrayElement.m */; };
+		C3D36A162097434F003EB7C4 /* OKOAssociatedMutableArray.h in Headers */ = {isa = PBXBuildFile; fileRef = C3D36A0B2097434F003EB7C4 /* OKOAssociatedMutableArray.h */; };
+		C3D36A172097434F003EB7C4 /* OKOAssociatedMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D36A0C2097434F003EB7C4 /* OKOAssociatedMutableArray.m */; };
+		C3D36A1D2097434F003EB7C4 /* OKOWeakArrayElementContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = C3D36A0F2097434F003EB7C4 /* OKOWeakArrayElementContainer.h */; };
+		C3D36A1E2097434F003EB7C4 /* OKOWeakArrayElementContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D36A102097434F003EB7C4 /* OKOWeakArrayElementContainer.m */; };
+		C3D36A202097434F003EB7C4 /* OKOWeakMutableArray.h in Headers */ = {isa = PBXBuildFile; fileRef = C3D36A112097434F003EB7C4 /* OKOWeakMutableArray.h */; };
+		C3D36A212097434F003EB7C4 /* OKOWeakMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D36A122097434F003EB7C4 /* OKOWeakMutableArray.m */; };
+		C3D36A26209743B8003EB7C4 /* OKODeallocMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = C3D36A24209743B7003EB7C4 /* OKODeallocMonitor.h */; };
+		C3D36A27209743B8003EB7C4 /* OKODeallocMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D36A25209743B8003EB7C4 /* OKODeallocMonitor.m */; };
+		C3D36A2B2097448F003EB7C4 /* OKODeallocMonitorObjectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D36A2A2097448F003EB7C4 /* OKODeallocMonitorObjectTest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,12 +37,27 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C38A326B209A1BC500907685 /* OKOWeakMutableArrayTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OKOWeakMutableArrayTest.m; sourceTree = "<group>"; };
+		C38A326D209B9A9500907685 /* CommonNotificationCentreTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonNotificationCentreTests.h; sourceTree = "<group>"; };
+		C38A326E209B9BDD00907685 /* OKONotificationCentre.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OKONotificationCentre.m; sourceTree = "<group>"; };
+		C38A3270209B9EC700907685 /* NSNotificationCenterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSNotificationCenterTests.m; sourceTree = "<group>"; };
 		C3D369EE20973FF7003EB7C4 /* OKONotificationCentre.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OKONotificationCentre.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3D369F120973FF7003EB7C4 /* OKONotificationCentre.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OKONotificationCentre.h; sourceTree = "<group>"; };
 		C3D369F220973FF7003EB7C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C3D369F720973FF7003EB7C4 /* OKONotificationCentreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OKONotificationCentreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C3D369FC20973FF7003EB7C4 /* OKONotificationCentreTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OKONotificationCentreTests.m; sourceTree = "<group>"; };
+		C3D369FC20973FF7003EB7C4 /* CommonNotificationCentreTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommonNotificationCentreTests.m; sourceTree = "<group>"; };
 		C3D369FE20973FF7003EB7C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C3D36A092097434F003EB7C4 /* OKOAssociatedArrayElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OKOAssociatedArrayElement.h; sourceTree = "<group>"; };
+		C3D36A0A2097434F003EB7C4 /* OKOAssociatedArrayElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OKOAssociatedArrayElement.m; sourceTree = "<group>"; };
+		C3D36A0B2097434F003EB7C4 /* OKOAssociatedMutableArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OKOAssociatedMutableArray.h; sourceTree = "<group>"; };
+		C3D36A0C2097434F003EB7C4 /* OKOAssociatedMutableArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OKOAssociatedMutableArray.m; sourceTree = "<group>"; };
+		C3D36A0F2097434F003EB7C4 /* OKOWeakArrayElementContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OKOWeakArrayElementContainer.h; sourceTree = "<group>"; };
+		C3D36A102097434F003EB7C4 /* OKOWeakArrayElementContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OKOWeakArrayElementContainer.m; sourceTree = "<group>"; };
+		C3D36A112097434F003EB7C4 /* OKOWeakMutableArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OKOWeakMutableArray.h; sourceTree = "<group>"; };
+		C3D36A122097434F003EB7C4 /* OKOWeakMutableArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OKOWeakMutableArray.m; sourceTree = "<group>"; };
+		C3D36A24209743B7003EB7C4 /* OKODeallocMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OKODeallocMonitor.h; sourceTree = "<group>"; };
+		C3D36A25209743B8003EB7C4 /* OKODeallocMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OKODeallocMonitor.m; sourceTree = "<group>"; };
+		C3D36A2A2097448F003EB7C4 /* OKODeallocMonitorObjectTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OKODeallocMonitorObjectTest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +79,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C38A326A209A1BB000907685 /* OKOMutableWeakArray */ = {
+			isa = PBXGroup;
+			children = (
+				C38A326B209A1BC500907685 /* OKOWeakMutableArrayTest.m */,
+			);
+			path = OKOMutableWeakArray;
+			sourceTree = "<group>";
+		};
 		C3D369E420973FF6003EB7C4 = {
 			isa = PBXGroup;
 			children = (
@@ -71,7 +108,9 @@
 		C3D369F020973FF7003EB7C4 /* OKONotificationCentre */ = {
 			isa = PBXGroup;
 			children = (
+				C3D36A2320974380003EB7C4 /* OKOWeakCollections */,
 				C3D369F120973FF7003EB7C4 /* OKONotificationCentre.h */,
+				C38A326E209B9BDD00907685 /* OKONotificationCentre.m */,
 				C3D369F220973FF7003EB7C4 /* Info.plist */,
 			);
 			path = OKONotificationCentre;
@@ -80,10 +119,47 @@
 		C3D369FB20973FF7003EB7C4 /* OKONotificationCentreTests */ = {
 			isa = PBXGroup;
 			children = (
-				C3D369FC20973FF7003EB7C4 /* OKONotificationCentreTests.m */,
+				C3D36A2920974450003EB7C4 /* OKOWeakCollections */,
+				C38A326D209B9A9500907685 /* CommonNotificationCentreTests.h */,
+				C3D369FC20973FF7003EB7C4 /* CommonNotificationCentreTests.m */,
+				C38A3270209B9EC700907685 /* NSNotificationCenterTests.m */,
 				C3D369FE20973FF7003EB7C4 /* Info.plist */,
 			);
 			path = OKONotificationCentreTests;
+			sourceTree = "<group>";
+		};
+		C3D36A082097434F003EB7C4 /* OKOMutableWeakArray */ = {
+			isa = PBXGroup;
+			children = (
+				C3D36A092097434F003EB7C4 /* OKOAssociatedArrayElement.h */,
+				C3D36A0A2097434F003EB7C4 /* OKOAssociatedArrayElement.m */,
+				C3D36A0B2097434F003EB7C4 /* OKOAssociatedMutableArray.h */,
+				C3D36A0C2097434F003EB7C4 /* OKOAssociatedMutableArray.m */,
+				C3D36A0F2097434F003EB7C4 /* OKOWeakArrayElementContainer.h */,
+				C3D36A102097434F003EB7C4 /* OKOWeakArrayElementContainer.m */,
+				C3D36A112097434F003EB7C4 /* OKOWeakMutableArray.h */,
+				C3D36A122097434F003EB7C4 /* OKOWeakMutableArray.m */,
+			);
+			path = OKOMutableWeakArray;
+			sourceTree = "<group>";
+		};
+		C3D36A2320974380003EB7C4 /* OKOWeakCollections */ = {
+			isa = PBXGroup;
+			children = (
+				C3D36A24209743B7003EB7C4 /* OKODeallocMonitor.h */,
+				C3D36A25209743B8003EB7C4 /* OKODeallocMonitor.m */,
+				C3D36A082097434F003EB7C4 /* OKOMutableWeakArray */,
+			);
+			path = OKOWeakCollections;
+			sourceTree = "<group>";
+		};
+		C3D36A2920974450003EB7C4 /* OKOWeakCollections */ = {
+			isa = PBXGroup;
+			children = (
+				C38A326A209A1BB000907685 /* OKOMutableWeakArray */,
+				C3D36A2A2097448F003EB7C4 /* OKODeallocMonitorObjectTest.m */,
+			);
+			path = OKOWeakCollections;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -94,6 +170,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3D369FF20973FF7003EB7C4 /* OKONotificationCentre.h in Headers */,
+				C3D36A202097434F003EB7C4 /* OKOWeakMutableArray.h in Headers */,
+				C3D36A1D2097434F003EB7C4 /* OKOWeakArrayElementContainer.h in Headers */,
+				C3D36A132097434F003EB7C4 /* OKOAssociatedArrayElement.h in Headers */,
+				C3D36A162097434F003EB7C4 /* OKOAssociatedMutableArray.h in Headers */,
+				C3D36A26209743B8003EB7C4 /* OKODeallocMonitor.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -195,6 +276,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3D36A172097434F003EB7C4 /* OKOAssociatedMutableArray.m in Sources */,
+				C3D36A27209743B8003EB7C4 /* OKODeallocMonitor.m in Sources */,
+				C3D36A1E2097434F003EB7C4 /* OKOWeakArrayElementContainer.m in Sources */,
+				C3D36A212097434F003EB7C4 /* OKOWeakMutableArray.m in Sources */,
+				C3D36A142097434F003EB7C4 /* OKOAssociatedArrayElement.m in Sources */,
+				C38A326F209B9BDD00907685 /* OKONotificationCentre.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,7 +289,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C3D369FD20973FF7003EB7C4 /* OKONotificationCentreTests.m in Sources */,
+				C3D36A2B2097448F003EB7C4 /* OKODeallocMonitorObjectTest.m in Sources */,
+				C38A326C209A1BC500907685 /* OKOWeakMutableArrayTest.m in Sources */,
+				C38A3271209B9EC700907685 /* NSNotificationCenterTests.m in Sources */,
+				C3D369FD20973FF7003EB7C4 /* CommonNotificationCentreTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
