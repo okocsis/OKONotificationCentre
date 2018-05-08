@@ -16,7 +16,7 @@ FOUNDATION_EXPORT const unsigned char OKONotificationCentreVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <OKONotificationCentre/PublicHeader.h>
 
-#import "OKOAssociatedMutableArray.h"
+#import "OKOAssociatedWeakMutableArray.h"
 
 
 NS_ASSUME_NONNULL_BEGIN

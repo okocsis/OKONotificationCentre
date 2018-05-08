@@ -7,7 +7,7 @@
 //
 
 #import "OKONotificationCentre.h"
-#import "OKOAssociatedMutableArray.h"
+#import "OKOAssociatedWeakMutableArray.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -57,8 +57,8 @@ typedef NS_ENUM(NSUInteger, OKONotificationQueueType) {
 
 @interface OKONotificationCentre()
 
-@property (nonatomic, strong) NSMutableDictionary<id<NSCopying>, OKOAssociatedMutableArray<OKOObserverBlockContainer *> *> *observerBlockContainersDict;
-@property (nonatomic, strong) OKOAssociatedMutableArray<OKOObserverBlockContainer *> *nilKeyedObserverBlockContainers;
+@property (nonatomic, strong) NSMutableDictionary<id<NSCopying>, OKOAssociatedWeakMutableArray<OKOObserverBlockContainer *> *> *observerBlockContainersDict;
+@property (nonatomic, strong) OKOAssociatedWeakMutableArray<OKOObserverBlockContainer *> *nilKeyedObserverBlockContainers;
 @property (nonatomic, strong) NSMutableDictionary<OKOObserverToken *,id <NSObject>> *compatibilityObserverTokenStore;
 
 @end
@@ -69,7 +69,7 @@ typedef NS_ENUM(NSUInteger, OKONotificationQueueType) {
     self = [super init];
     if (self) {
         self.observerBlockContainersDict = [NSMutableDictionary new];
-        self.nilKeyedObserverBlockContainers = [OKOAssociatedMutableArray new];
+        self.nilKeyedObserverBlockContainers = [OKOAssociatedWeakMutableArray new];
         self.compatibilityObserverTokenStore = [NSMutableDictionary new];
     }
     return self;
@@ -108,7 +108,7 @@ typedef NS_ENUM(NSUInteger, OKONotificationQueueType) {
     }
 }
 
-- (void)_triggerEachNotifyBlockInArray:(OKOAssociatedMutableArray<OKOObserverBlockContainer *> *)observerBlockContainersOrNil
+- (void)_triggerEachNotifyBlockInArray:(OKOAssociatedWeakMutableArray<OKOObserverBlockContainer *> *)observerBlockContainersOrNil
                                 sender:(nullable id)sender
                               userInfo:(nullable id)userInfo {
     for (OKOObserverBlockContainer *obc in observerBlockContainersOrNil) {
@@ -126,7 +126,7 @@ typedef NS_ENUM(NSUInteger, OKONotificationQueueType) {
                       userInfo:(nullable id)userInfo {
     NSParameterAssert(aKey);
 
-    OKOAssociatedMutableArray<OKOObserverBlockContainer *> *observerBlockContainersOrNil = nil;
+    OKOAssociatedWeakMutableArray<OKOObserverBlockContainer *> *observerBlockContainersOrNil = nil;
     @synchronized(self.observerBlockContainersDict) {
         observerBlockContainersOrNil = self.observerBlockContainersDict[aKey];
     }
@@ -158,11 +158,11 @@ typedef NS_ENUM(NSUInteger, OKONotificationQueueType) {
         return;
     }
 
-    OKOAssociatedMutableArray<OKOObserverBlockContainer *> *observerBlockContainersOrNil = nil;
+    OKOAssociatedWeakMutableArray<OKOObserverBlockContainer *> *observerBlockContainersOrNil = nil;
     @synchronized(self.observerBlockContainersDict) {
         observerBlockContainersOrNil = self.observerBlockContainersDict[aKey];
         if (observerBlockContainersOrNil == nil) {
-            observerBlockContainersOrNil = [OKOAssociatedMutableArray new];
+            observerBlockContainersOrNil = [OKOAssociatedWeakMutableArray new];
             self.observerBlockContainersDict[aKey] = observerBlockContainersOrNil;
         }
     }

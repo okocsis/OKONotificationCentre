@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "OKOWeakMutableArray.h"
+#import "OKOArrayComperation.h"
 
 @interface OKOWeakMutableArrayTest : XCTestCase
 
@@ -31,74 +32,6 @@
     [super tearDown];
 }
 
-static BOOL areTheyIdentical(NSArray *rme, NSArray *wma) {
-    @autoreleasepool {
-        if (rme == nil && wma == nil) {
-            return YES;
-        }
-        if (rme == nil || wma == nil) {
-            return NO;
-        }
-        NSEnumerator *rmae = rme.objectEnumerator;
-        NSEnumerator *wmae = wma.objectEnumerator;
-        id objectFromRegular = nil;
-        id objectFromWeak = nil;
-
-        while (true) {
-            objectFromRegular = rmae.nextObject;
-            objectFromWeak = wmae.nextObject;
-            if (objectFromRegular == nil && objectFromWeak == nil) {
-                break;
-            } else if (objectFromRegular != nil && objectFromWeak != nil) {
-                if (objectFromRegular != objectFromWeak) {
-                    return NO;
-                }
-                continue;
-            } else if (objectFromRegular == nil && objectFromWeak != nil) {
-                return NO;
-            } else if (objectFromRegular != nil && objectFromWeak == nil) {
-                return NO;
-            } else {
-                return NO;
-            }
-        }
-    }
-    return YES;
-}
-
-- (void)testAreTheyIdentical {
-    NSArray *testData =
-        @[[NSObject new],
-          [NSObject new],
-          [NSObject new]];
-
-    //regular array will hold the data strongly
-    [self.regularMutableArray addObjectsFromArray:testData];
-
-    XCTAssertFalse(areTheyIdentical(@[[NSObject new]], @[]));
-    XCTAssertFalse(areTheyIdentical(@[], @[[NSObject new]]));
-    XCTAssertFalse(areTheyIdentical(nil, @[]));
-    XCTAssertFalse(areTheyIdentical(@[], nil));
-
-    XCTAssertTrue(areTheyIdentical(nil, nil));
-    XCTAssertTrue(areTheyIdentical(@[], @[]));
-    XCTAssertTrue(areTheyIdentical(testData, testData));
-
-    XCTAssertTrue(areTheyIdentical(self.regularMutableArray, testData));
-    XCTAssertTrue(areTheyIdentical(testData, self.regularMutableArray));
-
-    NSObject *added = [NSObject new];
-    [self.regularMutableArray addObject:added];
-    testData = [testData arrayByAddingObject:added];
-    XCTAssertTrue(areTheyIdentical(testData,self.regularMutableArray));
-
-    NSObject *insertedObj = [NSObject new];
-    [self.regularMutableArray insertObject:insertedObj
-                                   atIndex:1];
-    testData = [testData arrayByAddingObject:insertedObj];
-    XCTAssertFalse(areTheyIdentical(testData,self.regularMutableArray));
-
-}
 
 - (void)testAutoRemovalOnDeallocation {
 

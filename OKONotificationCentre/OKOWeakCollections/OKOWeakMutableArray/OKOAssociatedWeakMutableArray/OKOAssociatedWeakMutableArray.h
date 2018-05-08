@@ -6,21 +6,29 @@
 //  Copyright © 2018. okocsis. All rights reserved.
 //
 
-#import "OKOWeakMutableArray.h"
-#import "OKOAssociatedArrayElement.h"
+#import <Foundation/Foundation.h>
 
-@interface OKOAssociatedMutableArray<ObjectType> : OKOWeakMutableArray<ObjectType>
+@interface OKOAssociatedWeakMutableArray<ObjectType> : NSObject<NSFastEnumeration>
 
 - (ObjectType)objectAtIndex:(NSUInteger)index;
+
+-(NSUInteger)count;
 
 -(void)insertObject:(ObjectType)anObject
             atIndex:(NSUInteger)index
     associatedOwner:(NSObject *)associatedOwner;
 
+-(void)removeObjectAtIndex:(NSUInteger)index ;
+
 -(void)addObject:(ObjectType)anObject
  associatedOwner:(NSObject *)associatedOwner;
+
+-(void)removeLastObject;
 
 -(void)replaceObjectAtIndex:(NSUInteger)index
                  withObject:(ObjectType)anObject
             associatedOwner:(NSObject *)associatedOwner;
+
+
+
 @end
