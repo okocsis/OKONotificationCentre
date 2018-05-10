@@ -7,6 +7,7 @@
 //
 
 #import "CommonNotificationCentreTests.h"
+
 @interface NSNotificationCenter(dummy)<CommonNotificationCenter>
 @end
 
@@ -36,25 +37,16 @@
 }
 
 - (void)testAddObserver {
-    [super testAddObserver];
-}
-- (void)testPostNotification {
-    [super testPostNotification];
-}
-- (void)testPostNotificationNameObject {
-    [super testPostNotificationNameObject];
-}
-- (void)testPostNotificationNameObjectUserInfo {
-    [super testPostNotificationNameObjectUserInfo];
+    [super _testAddObserver];
 }
 - (void)testRemoveObserver {
-    [super testRemoveObserver];
+    [super _testRemoveObserver];
 }
 - (void)testRemoveObserverNameObject {
-    [super testRemoveObserverNameObject];
+    [super _testRemoveObserverNameObject];
 }
 - (void)testAddObserverObjectQueueUsingBlock {
-    [super testAddObserverObjectQueueUsingBlock];
+    [super _testAddObserverObjectQueueUsingBlock];
 }
 
 - (void)testPerformanceExample {

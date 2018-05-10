@@ -103,6 +103,22 @@
         [self.regularMutableArray removeLastObject];
         XCTAssertTrue(areTheyIdentical(self.weakMutableArray, self.regularMutableArray));
     }
+
+    XCTAssertEqual(self.regularMutableArray.count, 0);
+    XCTAssertEqual(self.weakMutableArray.count, 0);
+    NSObject *addedObject = [NSObject new];
+    [self.regularMutableArray addObject:addedObject];
+    [self.weakMutableArray addObject:addedObject];
+
+    [self.weakMutableArray removeObject:[NSObject new]];
+    XCTAssertEqual(self.weakMutableArray.count, 1);
+
+    [self.weakMutableArray removeObject:addedObject];
+    XCTAssertEqual(self.weakMutableArray.count, 0);
+
+    [self.regularMutableArray removeObject:addedObject];
+    XCTAssertEqual(self.regularMutableArray.count, 0);
+
 }
 
 - (void)testLastObject {
@@ -121,6 +137,7 @@
     XCTAssertEqual(self.weakMutableArray.count, 0);
     XCTAssertNil(self.weakMutableArray.lastObject);
 }
+
 - (void)testLastObject2 {
     [self.regularMutableArray addObjectsFromArray:@[[NSObject new],
                                                     [NSObject new]]];

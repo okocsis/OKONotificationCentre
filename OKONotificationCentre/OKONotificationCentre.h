@@ -8,15 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-//! Project version number for OKONotificationCentre.
-FOUNDATION_EXPORT double OKONotificationCentreVersionNumber;
+////! Project version number for OKONotificationCentre.
+//FOUNDATION_EXPORT double OKONotificationCentreVersionNumber;
+//
+////! Project version string for OKONotificationCentre.
+//FOUNDATION_EXPORT const unsigned char OKONotificationCentreVersionString[];
+//
+//// In this header, you should import all the public headers of your framework using statements like #import <OKONotificationCentre/PublicHeader.h>
 
-//! Project version string for OKONotificationCentre.
-FOUNDATION_EXPORT const unsigned char OKONotificationCentreVersionString[];
-
-// In this header, you should import all the public headers of your framework using statements like #import <OKONotificationCentre/PublicHeader.h>
-
-#import "OKOAssociatedWeakMutableArray.h"
+//#import "OKOAssociatedWeakMutableArray.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -31,7 +31,7 @@ typedef void (^OKOObserverBlock)(_Nullable id sender, _Nullable id userInfo);
 - (void)addObserverWithKey:(nullable id <NSCopying>)aKey
             onlyTriggerdBy:(nullable NSObject *)onlyTriggerdBy
              observerOwner:(NSObject *)observerOwner
-             observerBlock:(OKOObserverBlock)notificationBlock;
+             observerBlock:(OKOObserverBlock)observerBlock;
 
 - (void)addObserverWithKey:(nullable id <NSCopying>)aKey
             onlyTriggerdBy:(nullable NSObject *)onlyTriggerdBy
@@ -58,7 +58,20 @@ typedef void (^OKOObserverBlock)(_Nullable id sender, _Nullable id userInfo);
                      onlyTriggerdBy:(nullable NSObject *)onlyTriggerdBy
                 runOnOperationQueue:(nullable NSOperationQueue *)operationQueue
                       observerBlock:(OKOObserverBlock)observerBlock;
+@end
 
+@interface OKONotificationCentre(ManualRemoval)
+
+- (void) removeObserverBlockForKey:(nullable id <NSCopying>)aKey
+                     observerBlock:(OKOObserverBlock)observerBlock;
+
+@end
+
+@interface OKONotificationCentre(Simplified)
+
+- (void)addObserverWithKey:(nullable id <NSCopying>)aKey
+             observerOwner:(NSObject *)observerOwner
+             observerBlock:(OKOObserverBlock)observerBlock;
 
 @end
 

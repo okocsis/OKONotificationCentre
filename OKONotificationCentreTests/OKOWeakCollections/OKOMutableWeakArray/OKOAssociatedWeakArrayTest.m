@@ -113,4 +113,82 @@
     owner = nil;
     XCTAssertEqual(self.associatedWeakMutableArray.count, 0);
 }
+
+- (void)testRemoveAtIndex {
+    NSObject *owner = [NSObject new];
+    NSObject *object = [NSObject new];
+    __weak NSObject *weakObject = object;
+    [self.associatedWeakMutableArray addObject:object
+                               associatedOwner:owner];
+    object = nil;
+    XCTAssertEqual(self.associatedWeakMutableArray.count, 1);
+    XCTAssertNotNil(weakObject);
+
+    [self.associatedWeakMutableArray removeObjectAtIndex:0];
+    XCTAssertEqual(self.associatedWeakMutableArray.count, 0);
+    XCTAssertNil(weakObject);
+
+}
+
+- (void)testIndexOfObject {
+    NSObject *owner = [NSObject new];
+    NSObject *object = [NSObject new];
+    __weak NSObject *weakObject = object;
+    [self.associatedWeakMutableArray addObject:object
+                               associatedOwner:owner];
+    object = nil;
+
+    XCTAssertEqual([self.associatedWeakMutableArray indexOfObject:[NSObject new]], NSNotFound);
+    XCTAssertEqual([self.associatedWeakMutableArray indexOfObject:weakObject], 0);
+}
+
+- (void)testRemoveObject {
+    NSObject *owner = [NSObject new];
+    NSObject *object = [NSObject new];
+    __weak NSObject *weakObject = object;
+    [self.associatedWeakMutableArray addObject:object
+                               associatedOwner:owner];
+    object = nil;
+    XCTAssertEqual(self.associatedWeakMutableArray.count, 1);
+    XCTAssertNotNil(weakObject);
+
+    [self.associatedWeakMutableArray removeObject:[NSObject new]];
+    XCTAssertEqual(self.associatedWeakMutableArray.count, 1);
+
+    [self.associatedWeakMutableArray removeObject:nil];
+    XCTAssertEqual(self.associatedWeakMutableArray.count, 1);
+
+
+    [self.associatedWeakMutableArray removeObject:weakObject];
+    XCTAssertEqual(self.associatedWeakMutableArray.count, 0);
+    XCTAssertNil(weakObject);
+
+}
+
+- (void)testDealloc {
+    __weak NSObject *weakObj = nil;
+    NSObject *owner = nil;
+    __weak NSObject *weakOwner = nil;
+    OKOAssociatedWeakMutableArray * associatedWeakMutableArray = nil;
+    __weak OKOAssociatedWeakMutableArray *weakAssociatedWeakMutableArray = nil;
+    @autoreleasepool {
+        associatedWeakMutableArray = [OKOAssociatedWeakMutableArray new];
+        weakAssociatedWeakMutableArray = associatedWeakMutableArray;
+        owner = [NSObject new];
+        weakOwner = owner;
+        NSObject *obj = [NSObject new];
+        [associatedWeakMutableArray addObject:obj
+                              associatedOwner:owner];
+        weakObj = obj;
+        XCTAssertEqual(associatedWeakMutableArray.count, 1);
+    }
+    XCTAssertNotNil(weakObj);
+
+    associatedWeakMutableArray = nil;
+    XCTAssertNil(weakObj);
+
+    owner = nil;
+    XCTAssertNil(weakOwner);
+
+}
 @end

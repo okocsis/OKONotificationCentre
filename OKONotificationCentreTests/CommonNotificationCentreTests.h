@@ -7,6 +7,8 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "CommonTestCase.h"
+
 NS_ASSUME_NONNULL_BEGIN
 @protocol CommonNotificationCenter
 - (void)addObserver:(id)observer selector:(SEL)aSelector name:(nullable NSNotificationName)aName object:(nullable id)anObject;
@@ -25,13 +27,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id<CommonNotificationCenter>)defaultCenter; //abstract
 
-- (void)testAddObserver;
-- (void)testPostNotification;
-- (void)testPostNotificationNameObject;
-- (void)testPostNotificationNameObjectUserInfo;
-- (void)testRemoveObserver;
-- (void)testRemoveObserverNameObject;
-- (void)testAddObserverObjectQueueUsingBlock;
+- (NSArray<CommonTestCase *> *)testCases;
+
+- (void)_testAddObserver;
+- (void)_testRemoveObserver;
+- (void)_testRemoveObserverNameObject;
+- (void)_testAddObserverObjectQueueUsingBlock;
 
 @end
 NS_ASSUME_NONNULL_END

@@ -15,10 +15,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) id ownedObject;
 @property (nonatomic, nullable, weak) id owner;
+- (void)nilOwnedObject;
 
 @end
 
 @implementation OKOAssociatedWeakArrayElement
+
+- (id)ownedObject {
+    NSParameterAssert(_ownedObject);
+    return _ownedObject;
+}
+
+- (void)nilOwnedObject {
+    _ownedObject = nil;
+}
 
 @end
 
@@ -63,6 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
     id owner = element.owner;
     const void *key = (__bridge const void * _Nonnull)(element);
     objc_setAssociatedObject(owner, key, nil, OBJC_ASSOCIATION_RETAIN);
+
 }
 
 #pragma mark - Public API
@@ -84,10 +95,29 @@ NS_ASSUME_NONNULL_BEGIN
 
 }
 
--(void)removeObjectAtIndex:(NSUInteger)index {
-    __weak id element = self.backingWeakArray[index];
+- (void)removeObjectAtIndex:(NSUInteger)index {
+    __weak OKOAssociatedWeakArrayElement * element = self.backingWeakArray[index];
     [self.backingWeakArray removeObjectAtIndex:index];
     [self _disassociate:element];
+}
+
+- (NSUInteger)indexOfObject:(id)anObject {
+    NSUInteger count = self.count;
+    NSUInteger foundIndex = NSNotFound;
+    for (NSUInteger i = 0; i < count; ++i) {
+        if ([[self objectAtIndex:i] isEqual:anObject]) {
+            foundIndex = i;
+            break;
+        }
+    }
+    return foundIndex;
+}
+
+- (void)removeObject:(id)anObject {
+    NSUInteger foundIndex = [self indexOfObject:anObject];
+    if (foundIndex != NSNotFound) {
+        [self removeObjectAtIndex:foundIndex];
+    }
 }
 
 - (void)addObject:(id)anObject
@@ -96,8 +126,8 @@ NS_ASSUME_NONNULL_BEGIN
                                       andAssociateWith:associatedOwner]];
 }
 
--(void)removeLastObject {
-    __weak id lastElement = self.backingWeakArray.lastObject;
+- (void)removeLastObject {
+    __weak OKOAssociatedWeakArrayElement * lastElement = self.backingWeakArray.lastObject;
     if (lastElement == nil) {
         return;
     }
@@ -122,9 +152,25 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state
                                   objects:(id __unsafe_unretained _Nullable [_Nonnull])buffer
                                     count:(NSUInteger)len {
-    return [self.backingWeakArray countByEnumeratingWithState:state
-                                                      objects:buffer
-                                                        count:len];
+    NSUInteger bufferSize =
+        [self.backingWeakArray countByEnumeratingWithState:state
+                                                   objects:buffer
+                                                     count:len];
+    for (NSUInteger i = 0; i < bufferSize; ++i) {
+        buffer[i] = [self _unWrap:buffer[i]];
+    }
+    return bufferSize;
+}
+
+#pragma mark - Death
+
+- (void)dealloc {
+    @autoreleasepool {
+        for (OKOAssociatedWeakArrayElement *element in self.backingWeakArray) {
+            [self _disassociate:element];
+            [element nilOwnedObject];
+        }
+    }
 }
 
 @end

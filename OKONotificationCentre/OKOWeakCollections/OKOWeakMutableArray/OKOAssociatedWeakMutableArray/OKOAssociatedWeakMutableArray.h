@@ -8,27 +8,30 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
 @interface OKOAssociatedWeakMutableArray<ObjectType> : NSObject<NSFastEnumeration>
 
 - (ObjectType)objectAtIndex:(NSUInteger)index;
 
--(NSUInteger)count;
+- (NSUInteger)count;
 
--(void)insertObject:(ObjectType)anObject
+- (void)insertObject:(ObjectType)anObject
             atIndex:(NSUInteger)index
     associatedOwner:(NSObject *)associatedOwner;
 
--(void)removeObjectAtIndex:(NSUInteger)index ;
+- (void)removeObjectAtIndex:(NSUInteger)index;
 
--(void)addObject:(ObjectType)anObject
+- (NSUInteger)indexOfObject:(ObjectType)anObject;
+- (void)removeObject:(ObjectType)anObject;
+
+- (void)addObject:(ObjectType)anObject
  associatedOwner:(NSObject *)associatedOwner;
 
--(void)removeLastObject;
+- (void)removeLastObject;
 
 -(void)replaceObjectAtIndex:(NSUInteger)index
                  withObject:(ObjectType)anObject
             associatedOwner:(NSObject *)associatedOwner;
 
-
-
 @end
+NS_ASSUME_NONNULL_END

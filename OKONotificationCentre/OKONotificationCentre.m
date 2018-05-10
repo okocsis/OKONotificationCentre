@@ -130,14 +130,13 @@ typedef NS_ENUM(NSUInteger, OKONotificationQueueType) {
     @synchronized(self.observerBlockContainersDict) {
         observerBlockContainersOrNil = self.observerBlockContainersDict[aKey];
     }
-    if (observerBlockContainersOrNil == nil) {
-        return;
-    }
 
-    @synchronized(observerBlockContainersOrNil) {
-        [self _triggerEachNotifyBlockInArray:observerBlockContainersOrNil
-                                      sender:sender
-                                    userInfo:userInfo];
+    if (observerBlockContainersOrNil != nil) {
+        @synchronized(observerBlockContainersOrNil) {
+            [self _triggerEachNotifyBlockInArray:observerBlockContainersOrNil
+                                          sender:sender
+                                        userInfo:userInfo];
+        }
     }
 
     @synchronized(self.nilKeyedObserverBlockContainers) {
@@ -176,10 +175,12 @@ typedef NS_ENUM(NSUInteger, OKONotificationQueueType) {
 - (void)addObserverWithKey:(nullable id <NSCopying>)aKey
             onlyTriggerdBy:(nullable NSObject *)onlyTriggerdBy
              observerOwner:(NSObject *)observerOwner
-             observerBlock:(OKOObserverBlock)notificationBlock {
+             observerBlock:(OKOObserverBlock)observerBlock {
+    NSParameterAssert(observerOwner);
+    NSParameterAssert(observerBlock);
 
     OKOObserverBlockContainer *obc = [OKOObserverBlockContainer new];
-    obc.block = notificationBlock;
+    obc.block = observerBlock;
     obc.queueType = kOKONotificationQueueTypeRunSynchronously;
     obc.onlyTriggerdBy = onlyTriggerdBy;
 
@@ -193,6 +194,9 @@ typedef NS_ENUM(NSUInteger, OKONotificationQueueType) {
         runOnDispatchQueue:(nullable dispatch_queue_t)dispatchQueue
              observerOwner:(NSObject *)observerOwner
              observerBlock:(OKOObserverBlock)observerBlock {
+    NSParameterAssert(observerOwner);
+    NSParameterAssert(observerBlock);
+    
     if (dispatchQueue == nil) {
         [self addObserverWithKey:aKey
                   onlyTriggerdBy:onlyTriggerdBy
@@ -217,6 +221,9 @@ typedef NS_ENUM(NSUInteger, OKONotificationQueueType) {
        runOnOperationQueue:(nullable NSOperationQueue *)operationQueue
              observerOwner:(NSObject *)observerOwner
              observerBlock:(OKOObserverBlock)observerBlock {
+    NSParameterAssert(observerOwner);
+    NSParameterAssert(observerBlock);
+
     if (operationQueue == nil) {
         [self addObserverWithKey:aKey
                   onlyTriggerdBy:onlyTriggerdBy
@@ -239,6 +246,8 @@ typedef NS_ENUM(NSUInteger, OKONotificationQueueType) {
 - (id <NSObject>)addObserverWithKey:(nullable id <NSCopying>)aKey
                      onlyTriggerdBy:(nullable NSObject *)onlyTriggerdBy
                       observerBlock:(OKOObserverBlock)observerBlock {
+    NSParameterAssert(observerBlock);
+
     NSObject *token = [NSObject new];
     [self addObserverWithKey:aKey
               onlyTriggerdBy:onlyTriggerdBy
@@ -251,6 +260,8 @@ typedef NS_ENUM(NSUInteger, OKONotificationQueueType) {
                      onlyTriggerdBy:(nullable NSObject *)onlyTriggerdBy
                  runOnDispatchQueue:(nullable dispatch_queue_t)dispatchQueue
                       observerBlock:(OKOObserverBlock)observerBlock {
+    NSParameterAssert(observerBlock);
+
     NSObject *token = [NSObject new];
     [self addObserverWithKey:aKey
               onlyTriggerdBy:onlyTriggerdBy
@@ -264,6 +275,8 @@ typedef NS_ENUM(NSUInteger, OKONotificationQueueType) {
                      onlyTriggerdBy:(nullable NSObject *)onlyTriggerdBy
                 runOnOperationQueue:(nullable NSOperationQueue *)operationQueue
                       observerBlock:(OKOObserverBlock)observerBlock {
+    NSParameterAssert(observerBlock);
+
     NSObject *token = [NSObject new];
     [self addObserverWithKey:aKey
               onlyTriggerdBy:onlyTriggerdBy
@@ -271,6 +284,72 @@ typedef NS_ENUM(NSUInteger, OKONotificationQueueType) {
                observerOwner:token
                observerBlock:observerBlock];
     return token;
+}
+
+@end
+
+@implementation OKONotificationCentre(Simplified)
+- (void)addObserverWithKey:(nullable id <NSCopying>)aKey
+             observerOwner:(NSObject *)observerOwner
+             observerBlock:(OKOObserverBlock)observerBlock {
+    [self addObserverWithKey:aKey
+              onlyTriggerdBy:nil
+               observerOwner:observerOwner
+               observerBlock:observerBlock];
+}
+@end
+
+@implementation OKONotificationCentre(ManualRemoval)
+
+- (NSUInteger)_indexForBlock:(OKOObserverBlock)observerBlock
+                 inOBCArray:(OKOAssociatedWeakMutableArray<OKOObserverBlockContainer *> *)assocArray {
+    NSUInteger foundIndex = NSNotFound;
+    NSUInteger count = assocArray.count;
+    for (NSUInteger i = 0; i < count; ++i) {
+        if ([assocArray objectAtIndex:i].block == observerBlock) {
+            foundIndex = i;
+            break;
+        }
+    }
+    return foundIndex;
+}
+
+- (void)_removeAllOccurencesOfBlock:(OKOObserverBlock)observerBlock
+                         inOBCArray:(OKOAssociatedWeakMutableArray<OKOObserverBlockContainer *> *)assocArray {
+    NSUInteger foundIndex = NSNotFound;
+    do {
+        foundIndex = [self _indexForBlock:observerBlock
+                               inOBCArray:self.nilKeyedObserverBlockContainers];
+        if (foundIndex != NSNotFound) {
+            [assocArray removeObjectAtIndex:foundIndex];
+        }
+    } while (foundIndex != NSNotFound);
+}
+
+- (void)removeObserverBlockForKey:(nullable id <NSCopying>)aKey
+                    observerBlock:(OKOObserverBlock)observerBlock {
+    if (observerBlock == nil) {
+        return;
+    }
+    
+    if (aKey == nil) {
+        @synchronized(self.nilKeyedObserverBlockContainers) {
+            [self _removeAllOccurencesOfBlock:observerBlock
+                                   inOBCArray:self.nilKeyedObserverBlockContainers];
+        }
+    } else {
+        OKOAssociatedWeakMutableArray<OKOObserverBlockContainer *> *observerBlockContainersOrNil = nil;
+        @synchronized(self.observerBlockContainersDict) {
+            observerBlockContainersOrNil = self.observerBlockContainersDict[aKey];
+        }
+        if (observerBlockContainersOrNil != nil) {
+            @synchronized(observerBlockContainersOrNil) {
+                [self _removeAllOccurencesOfBlock:observerBlock
+                                       inOBCArray:observerBlockContainersOrNil];
+            }
+        }
+    }
+
 }
 
 @end
