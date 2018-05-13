@@ -37,9 +37,96 @@
     // Use XCTAssert and related functions to verify your tests produce the correct results.
 }
 
+- (void)testBlockAutoRemovalOnOwnersDeath {
+    OKONotificationCentre *center = OKONotificationCentre.defaultCenter;
+
+    __weak NSObject *weakOwner = nil;
+    __weak id weakBlock = nil;
+    NSString *key = [self uniqueTestNameForName:@"BlockAutoRemovalOnOwnersDeath"];
+
+
+    @autoreleasepool {
+        NSObject *owner = [NSObject new];
+        weakOwner = owner;
+        id globalblock = ^(id _Nullable sender, id _Nullable userInfo) {};
+        weakBlock = globalblock;
+
+        [center addObserverWithKey:key
+                     observerOwner:owner
+                     observerBlock:globalblock];
+
+        [center postNotificationForKey:key
+                                sender:nil
+                              userInfo:nil];
+    }
+    XCTAssertNil(weakOwner);
+// the block is still in memory since it was optimised to be a global pointer
+    //FIXME
+    XCTAssertNotNil(weakBlock);
+
+}
+
+- (void)testBlockAutoRemovalRetainCycle {
+    OKONotificationCentre *center = OKONotificationCentre.defaultCenter;
+
+    __weak NSObject *weakOwner = nil;
+    __weak id weakBlock = nil;
+    NSString *key = [self uniqueTestNameForName:@"BlockAutoRemovalRetainCycle"];
+
+    @autoreleasepool {
+        NSObject *owner = [NSObject new];
+        weakOwner = owner;
+        id mallocBlock = ^(id _Nullable sender, id _Nullable userInfo) {
+            NSLog(@"%@",owner); // <------ DO NOT DO THIS
+        };
+        weakBlock = mallocBlock;
+
+        [center addObserverWithKey:key
+                     observerOwner:owner
+                     observerBlock:mallocBlock];
+
+        [center postNotificationForKey:key
+                                sender:nil
+                              userInfo:nil];
+    }
+    XCTAssertNotNil(weakBlock);
+    XCTAssertNotNil(weakOwner);
+    [center removeObserverBlockForKey:key
+                        observerBlock:weakBlock];
+    XCTAssertNil(weakBlock);
+    XCTAssertNil(weakOwner);
+}
+
+- (void)testBlockAutoRemovalRetainCycleFix {
+    OKONotificationCentre *center = OKONotificationCentre.defaultCenter;
+
+    __weak NSObject *weakOwner = nil;
+    __weak id weakBlock = nil;
+    NSString *key = [self uniqueTestNameForName:@"BlockAutoRemovalRetainCycleFix"];
+
+    @autoreleasepool {
+        NSObject *owner = [NSObject new];
+        weakOwner = owner;
+        id mallocBlock = ^(id _Nullable sender, id _Nullable userInfo) {
+            NSLog(@"%@",weakBlock); // <------ AVOIDING RETAIN CYCLE WITH A WEAK CAPTURE
+        };
+        weakBlock = mallocBlock;
+
+        [center addObserverWithKey:key
+                     observerOwner:owner
+                     observerBlock:mallocBlock];
+
+        [center postNotificationForKey:key
+                                sender:nil
+                              userInfo:nil];
+    }
+    XCTAssertNil(weakBlock);
+    XCTAssertNil(weakOwner);
+}
+
 - (void)testSimpleApi {
 
-    OKONotificationCentre *center = [OKONotificationCentre new];
+    OKONotificationCentre *center = OKONotificationCentre.defaultCenter;
 
     for (CommonTestCase *testCase in self.testCases) {
         NSLog(@"%@",testCase.description);

@@ -45,26 +45,32 @@ NS_ASSUME_NONNULL_BEGIN
     return nil; // abstract
 }
 
+- (NSString *)uniqueTestNameForName:(NSString *)name {
+    return [NSString stringWithFormat:@"OKOTest_%@_testObject:%p",
+            name,
+            self];
+}
+
 - (NSArray<CommonTestCase *> *)testCases {
     return @[
              [CommonTestCase caseWithDesc:@"test 0"
                          addObserverInput:[AddObserverInput inputWithName:nil
                                                                    object:nil]
-                           postNotifInput:[PostNotifInput inputWithName:@"OKOTest_someName"
+                           postNotifInput:[PostNotifInput inputWithName:[self uniqueTestNameForName:@"someName"]
                                                                  object:nil
                                                                userInfo:nil]
                                  inverted:NO],
              [CommonTestCase caseWithDesc:@"test 1"
-                         addObserverInput:[AddObserverInput inputWithName:@"OKOTest_sameName"
+                         addObserverInput:[AddObserverInput inputWithName:[self uniqueTestNameForName:@"sameName"]
                                                                    object:nil]
-                           postNotifInput:[PostNotifInput inputWithName:@"OKOTest_sameName"
+                           postNotifInput:[PostNotifInput inputWithName:[self uniqueTestNameForName:@"sameName"]
                                                                  object:nil
                                                                userInfo:nil]
                                  inverted:NO],
              [CommonTestCase caseWithDesc:@"test 2"
-                         addObserverInput:[AddObserverInput inputWithName:@"OKOTest_sameName"
+                         addObserverInput:[AddObserverInput inputWithName:[self uniqueTestNameForName:@"sameName"]
                                                                    object:nil]
-                           postNotifInput:[PostNotifInput inputWithName:@"OKOTest_differentName"
+                           postNotifInput:[PostNotifInput inputWithName:[self uniqueTestNameForName:@"differentName"]
                                                                  object:nil
                                                                userInfo:nil]
                                  inverted:YES]

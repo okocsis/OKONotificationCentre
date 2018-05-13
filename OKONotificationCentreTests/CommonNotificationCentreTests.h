@@ -27,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id<CommonNotificationCenter>)defaultCenter; //abstract
 
+- (NSString *)uniqueTestNameForName:(NSString *)name;
 - (NSArray<CommonTestCase *> *)testCases;
 
 - (void)_testAddObserver;
