@@ -301,29 +301,15 @@ typedef NS_ENUM(NSUInteger, OKONotificationQueueType) {
 
 @implementation OKONotificationCentre(ManualRemoval)
 
-+ (NSUInteger)_indexForBlock:(OKOObserverBlock)observerBlock
-                  inOBCArray:(OKOAssociatedWeakMutableArray<OKOObserverBlockContainer *> *)assocArray {
-    NSUInteger foundIndex = NSNotFound;
-    NSUInteger count = assocArray.count;
-    for (NSUInteger i = 0; i < count; ++i) {
-        if ([assocArray objectAtIndex:i].block == observerBlock) {
-            foundIndex = i;
-            break;
-        }
-    }
-    return foundIndex;
-}
-
 + (void)_removeAllOccurencesOfBlock:(OKOObserverBlock)observerBlock
                          inOBCArray:(OKOAssociatedWeakMutableArray<OKOObserverBlockContainer *> *)assocArray {
-    NSUInteger foundIndex = NSNotFound;
-    do {
-        foundIndex = [self _indexForBlock:observerBlock
-                               inOBCArray:assocArray];
-        if (foundIndex != NSNotFound) {
-            [assocArray removeObjectAtIndex:foundIndex];
-        }
-    } while (foundIndex != NSNotFound);
+    NSIndexSet *indexes =
+        [assocArray indexesOfObjectsPassingTest:^BOOL(OKOObserverBlockContainer * _Nonnull obc,
+                                                      NSUInteger idx,
+                                                      BOOL * _Nonnull stop) {
+            return obc.block == observerBlock;
+        }];
+    [assocArray removeObjectsAtIndexes:indexes];
 }
 
 - (void)removeObserverBlockForKey:(nullable id <NSCopying>)aKey

@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 
-- (OKOAssociatedWeakArrayElement *) _wrapObject:(id)anObject
++ (OKOAssociatedWeakArrayElement *) _wrapObject:(id)anObject
                                andAssociateWith:(NSObject *)associatedOwner {
         OKOAssociatedWeakArrayElement *element = [OKOAssociatedWeakArrayElement new];
         element.ownedObject = anObject;
@@ -60,13 +60,13 @@ NS_ASSUME_NONNULL_BEGIN
         return element;
 }
 
-- (nullable id)_unWrap:(OKOAssociatedWeakArrayElement *)element {
++ (nullable id)_unWrap:(OKOAssociatedWeakArrayElement *)element {
     return element.ownedObject;
 }
 
 
 
-- (void)_disassociate:(nullable OKOAssociatedWeakArrayElement *)element {
++ (void)_disassociate:(nullable OKOAssociatedWeakArrayElement *)element {
     if (element == nil || element.owner == nil) {
         return;
     }
@@ -83,13 +83,13 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (id)objectAtIndex:(NSUInteger)index {
-    return [self _unWrap:[self.backingWeakArray objectAtIndex:index]];
+    return [[self class] _unWrap:[self.backingWeakArray objectAtIndex:index]];
 }
 
 - (void)insertObject:(id)anObject
              atIndex:(NSUInteger)index
      associatedOwner:(NSObject *)associatedOwner {
-    [self.backingWeakArray insertObject:[self _wrapObject:anObject
+    [self.backingWeakArray insertObject:[[self class] _wrapObject:anObject
                                          andAssociateWith:associatedOwner]
                                 atIndex:index];
 
@@ -98,7 +98,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeObjectAtIndex:(NSUInteger)index {
     __weak OKOAssociatedWeakArrayElement * element = self.backingWeakArray[index];
     [self.backingWeakArray removeObjectAtIndex:index];
-    [self _disassociate:element];
+    [[self class] _disassociate:element];
 }
 
 - (NSUInteger)indexOfObject:(id)anObject {
@@ -122,8 +122,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)addObject:(id)anObject
   associatedOwner:(NSObject *)associatedOwner {
-    [self.backingWeakArray addObject:[self _wrapObject:anObject
-                                      andAssociateWith:associatedOwner]];
+    [self.backingWeakArray addObject:[[self class] _wrapObject:anObject
+                                              andAssociateWith:associatedOwner]];
 }
 
 - (void)removeLastObject {
@@ -132,7 +132,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
     [self.backingWeakArray removeLastObject];
-    [self _disassociate:lastElement];
+    [[self class] _disassociate:lastElement];
 
     
 }
@@ -142,9 +142,60 @@ NS_ASSUME_NONNULL_BEGIN
              associatedOwner:(NSObject *)associatedOwner {
     __weak id oldElement = self.backingWeakArray[index];
     [self.backingWeakArray replaceObjectAtIndex:index
-                                     withObject:[self _wrapObject:anObject
-                                                 andAssociateWith:associatedOwner]];
-    [self _disassociate:oldElement];
+                                     withObject:[[self class] _wrapObject:anObject
+                                                         andAssociateWith:associatedOwner]];
+    [[self class] _disassociate:oldElement];
+}
+
+#pragma mark - NSMutableArray(NSExtendedMutableArray)
+- (void)removeObjectsAtIndexes:(NSIndexSet *)indexes {
+    @autoreleasepool {
+        NSArray<OKOAssociatedWeakArrayElement *> *elements =
+            [self.backingWeakArray objectsAtIndexes:indexes];
+
+        [self.backingWeakArray removeObjectsAtIndexes:indexes];
+
+        for (OKOAssociatedWeakArrayElement *el in elements) {
+            [[self class] _disassociate:el];
+        }
+        elements = nil;
+    }
+}
+
+
+#pragma mark - NSArray(NSExtendedArray)
+typedef BOOL (^OKOPredicate)(id, NSUInteger, BOOL *);
+typedef BOOL (^OKOBackingPredicate)(OKOAssociatedWeakArrayElement *, NSUInteger, BOOL *);
+
+
+OKOBackingPredicate _backingArrayPredicateFromPredicate(NS_NOESCAPE OKOPredicate predicate) {
+    OKOBackingPredicate  backingArrayPredicate =
+        ^BOOL(OKOAssociatedWeakArrayElement * _Nonnull element,
+              NSUInteger idx,
+              BOOL * _Nonnull stop) {
+            return predicate(element.ownedObject, idx, stop);
+        };
+    return backingArrayPredicate;
+}
+
+- (NSIndexSet *)indexesOfObjectsPassingTest:(BOOL (NS_NOESCAPE ^)(id obj, NSUInteger idx, BOOL *stop))predicate  {
+
+    return [self.backingWeakArray indexesOfObjectsPassingTest:_backingArrayPredicateFromPredicate(predicate)];
+}
+
+- (NSIndexSet *)indexesOfObjectsWithOptions:(NSEnumerationOptions)opts
+                                passingTest:(BOOL (NS_NOESCAPE ^)(id obj, NSUInteger idx, BOOL *stop))predicate {
+    return [self.backingWeakArray indexesOfObjectsWithOptions:opts
+                                                  passingTest:_backingArrayPredicateFromPredicate(predicate)];
+
+}
+
+- (NSIndexSet *)indexesOfObjectsAtIndexes:(NSIndexSet *)s
+                                  options:(NSEnumerationOptions)opts
+                              passingTest:(BOOL (NS_NOESCAPE ^)(id obj, NSUInteger idx, BOOL *stop))predicate {
+    return [self.backingWeakArray indexesOfObjectsAtIndexes:s
+                                                    options:opts
+                                                passingTest:_backingArrayPredicateFromPredicate(predicate)];
 }
 
 #pragma mark - NSFastEnumeration
@@ -157,7 +208,7 @@ NS_ASSUME_NONNULL_BEGIN
                                                    objects:buffer
                                                      count:len];
     for (NSUInteger i = 0; i < bufferSize; ++i) {
-        buffer[i] = [self _unWrap:buffer[i]];
+        buffer[i] = [[self class] _unWrap:buffer[i]];
     }
     return bufferSize;
 }
@@ -167,7 +218,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)dealloc {
     @autoreleasepool {
         for (OKOAssociatedWeakArrayElement *element in self.backingWeakArray) {
-            [self _disassociate:element];
+            [[self class] _disassociate:element];
             [element nilOwnedObject];
         }
     }

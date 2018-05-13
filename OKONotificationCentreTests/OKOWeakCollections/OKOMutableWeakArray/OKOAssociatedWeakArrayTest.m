@@ -165,6 +165,58 @@
 
 }
 
+- (void)testRemoveObjectsAtIndexes {
+    __weak NSObject *weakObject = nil;
+    __weak NSObject *weakObject2 = nil;
+    __weak NSObject *weakObject3 = nil;
+    __weak NSObject *weakOwner = nil;
+    @autoreleasepool {
+        NSObject *owner = nil;
+
+        @autoreleasepool {
+            owner = [NSObject new];
+            weakOwner = owner;
+            NSObject *object = [NSObject new];
+            NSObject *object2 = [NSObject new];
+            NSObject *object3 = [NSObject new];
+            weakObject = object;
+            weakObject2 = object2;
+            weakObject3 = object3;
+
+            [self.associatedWeakMutableArray addObject:object
+                                       associatedOwner:owner];
+            [self.associatedWeakMutableArray addObject:object2
+                                       associatedOwner:owner];
+            [self.associatedWeakMutableArray addObject:object3
+                                       associatedOwner:owner];
+            object = nil;
+            object2 = nil;
+            object3 = nil;
+        }
+        XCTAssertEqual(self.associatedWeakMutableArray.count, 3);
+        XCTAssertNotNil(weakObject);
+        XCTAssertNotNil(weakObject2);
+        XCTAssertNotNil(weakObject3);
+
+        NSIndexSet * indexes =
+        [self.associatedWeakMutableArray indexesOfObjectsPassingTest:^BOOL(NSObject * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            return (obj == weakObject) || (obj == weakObject3);
+        }];
+        [self.associatedWeakMutableArray removeObjectsAtIndexes:indexes];
+
+        XCTAssertEqual(self.associatedWeakMutableArray.count, 1);
+        XCTAssertNil(weakObject);
+        XCTAssertNotNil(weakObject2);
+        XCTAssertNil(weakObject3);
+        XCTAssertEqual([self.associatedWeakMutableArray objectAtIndex:0], weakObject2);
+
+        owner = nil;
+    }
+    XCTAssertNil(weakOwner);
+    XCTAssertNil(weakObject2);
+    XCTAssertEqual(self.associatedWeakMutableArray.count, 0);
+}
+
 - (void)testDealloc {
     __weak NSObject *weakObj = nil;
     NSObject *owner = nil;

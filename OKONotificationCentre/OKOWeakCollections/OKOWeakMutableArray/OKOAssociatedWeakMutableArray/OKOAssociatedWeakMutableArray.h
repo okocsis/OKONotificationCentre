@@ -33,5 +33,16 @@ NS_ASSUME_NONNULL_BEGIN
                  withObject:(ObjectType)anObject
             associatedOwner:(NSObject *)associatedOwner;
 
+#pragma mark - NSMutableArray(NSExtendedMutableArray)
+- (void)removeObjectsAtIndexes:(NSIndexSet *)indexes;
+
+#pragma mark - NSArray(NSExtendedArray)
+
+- (NSIndexSet *)indexesOfObjectsPassingTest:(BOOL (NS_NOESCAPE ^)(ObjectType obj, NSUInteger idx, BOOL *stop))predicate;
+- (NSIndexSet *)indexesOfObjectsWithOptions:(NSEnumerationOptions)opts
+                                passingTest:(BOOL (NS_NOESCAPE ^)(ObjectType obj, NSUInteger idx, BOOL *stop))predicate;
+- (NSIndexSet *)indexesOfObjectsAtIndexes:(NSIndexSet *)s
+                                  options:(NSEnumerationOptions)opts
+                              passingTest:(BOOL (NS_NOESCAPE ^)(ObjectType obj, NSUInteger idx, BOOL *stop))predicate;
 @end
 NS_ASSUME_NONNULL_END
