@@ -43,12 +43,16 @@
     __weak NSObject *weakOwner = nil;
     __weak id weakBlock = nil;
     NSString *key = [self uniqueTestNameForName:@"BlockAutoRemovalOnOwnersDeath"];
-
+    XCTestExpectation * exp = [self expectationWithDescription:@"global block executed"];
+    XCTestExpectation * invExp = [self expectationWithDescription:@"global should not be block executed"];
+    invExp.inverted = YES;
 
     @autoreleasepool {
         NSObject *owner = [NSObject new];
         weakOwner = owner;
-        id globalblock = ^(id _Nullable sender, id _Nullable userInfo) {};
+        id globalblock = ^(id _Nullable sender, NSDictionary *userInfo) {
+            [(XCTestExpectation *)userInfo[@"expectation"] fulfill];
+        };
         weakBlock = globalblock;
 
         [center addObserverWithKey:key
@@ -57,12 +61,22 @@
 
         [center postNotificationForKey:key
                                 sender:nil
-                              userInfo:nil];
+                              userInfo:@{ @"expectation" : exp}];
     }
     XCTAssertNil(weakOwner);
-// the block is still in memory since it was optimised to be a global pointer
-    //FIXME
+
+    // the block is still in memory since it was optimised to be a global pointer
+    // this is not a real issue, beacuse it was indeed autoremoved from the observers backing array
+    // we can prove this with a simple post but feeding an inverse expectation to it now,
+    // so we know for sure that even though the block is still present it will *NOT* execute
     XCTAssertNotNil(weakBlock);
+    [center postNotificationForKey:key
+                            sender:nil
+                          userInfo:@{ @"expectation" : invExp}];
+    [self waitForExpectations:@[exp, invExp]
+                      timeout:1
+                 enforceOrder:YES];
+
 
 }
 
