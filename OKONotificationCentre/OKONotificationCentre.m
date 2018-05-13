@@ -301,8 +301,8 @@ typedef NS_ENUM(NSUInteger, OKONotificationQueueType) {
 
 @implementation OKONotificationCentre(ManualRemoval)
 
-- (NSUInteger)_indexForBlock:(OKOObserverBlock)observerBlock
-                 inOBCArray:(OKOAssociatedWeakMutableArray<OKOObserverBlockContainer *> *)assocArray {
++ (NSUInteger)_indexForBlock:(OKOObserverBlock)observerBlock
+                  inOBCArray:(OKOAssociatedWeakMutableArray<OKOObserverBlockContainer *> *)assocArray {
     NSUInteger foundIndex = NSNotFound;
     NSUInteger count = assocArray.count;
     for (NSUInteger i = 0; i < count; ++i) {
@@ -314,12 +314,12 @@ typedef NS_ENUM(NSUInteger, OKONotificationQueueType) {
     return foundIndex;
 }
 
-- (void)_removeAllOccurencesOfBlock:(OKOObserverBlock)observerBlock
++ (void)_removeAllOccurencesOfBlock:(OKOObserverBlock)observerBlock
                          inOBCArray:(OKOAssociatedWeakMutableArray<OKOObserverBlockContainer *> *)assocArray {
     NSUInteger foundIndex = NSNotFound;
     do {
         foundIndex = [self _indexForBlock:observerBlock
-                               inOBCArray:self.nilKeyedObserverBlockContainers];
+                               inOBCArray:assocArray];
         if (foundIndex != NSNotFound) {
             [assocArray removeObjectAtIndex:foundIndex];
         }
@@ -334,8 +334,8 @@ typedef NS_ENUM(NSUInteger, OKONotificationQueueType) {
     
     if (aKey == nil) {
         @synchronized(self.nilKeyedObserverBlockContainers) {
-            [self _removeAllOccurencesOfBlock:observerBlock
-                                   inOBCArray:self.nilKeyedObserverBlockContainers];
+            [[self class] _removeAllOccurencesOfBlock:observerBlock
+                                           inOBCArray:self.nilKeyedObserverBlockContainers];
         }
     } else {
         OKOAssociatedWeakMutableArray<OKOObserverBlockContainer *> *observerBlockContainersOrNil = nil;
@@ -344,8 +344,8 @@ typedef NS_ENUM(NSUInteger, OKONotificationQueueType) {
         }
         if (observerBlockContainersOrNil != nil) {
             @synchronized(observerBlockContainersOrNil) {
-                [self _removeAllOccurencesOfBlock:observerBlock
-                                       inOBCArray:observerBlockContainersOrNil];
+                [[self class] _removeAllOccurencesOfBlock:observerBlock
+                                               inOBCArray:observerBlockContainersOrNil];
             }
         }
     }
