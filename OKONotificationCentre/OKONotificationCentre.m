@@ -46,7 +46,7 @@ typedef NS_ENUM(NSUInteger, OKONotificationQueueType) {
     return [self.backingNumber isEqual:object];
 }
 - (id)copyWithZone:(nullable NSZone *)zone {
-    return [self.backingNumber copyWithZone:zone];
+    return self;
 }
 + (instancetype)numberWithUnsignedInteger:(NSUInteger)value {
     OKOObserverToken *instance = [[self alloc] init];
