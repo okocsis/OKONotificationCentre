@@ -13,11 +13,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OKODeallocSpyingObject : NSObject
 @property (nonatomic, weak) id<OKODeallocMonitorObjectDelegate> delegate;
-@property (nonatomic) BOOL justBeingResetedPrivately;
+@property (nonatomic) BOOL justBeingResetPrivately;
 @end
 @implementation OKODeallocSpyingObject
 - (void)dealloc {
-    if (self.justBeingResetedPrivately) {
+    if (self.justBeingResetPrivately) {
         return;
     }
     [self.delegate didDeallocMonitoredObject];
@@ -93,7 +93,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (aMonitoredObject == nil || self.spy == nil) {
         return;
     }
-    self.spy.justBeingResetedPrivately = YES;
+    self.spy.justBeingResetPrivately = YES;
     NSObject *owner = aMonitoredObject;
     const void *key = (__bridge const void * _Nonnull)(self.spy);
     id value = nil;
