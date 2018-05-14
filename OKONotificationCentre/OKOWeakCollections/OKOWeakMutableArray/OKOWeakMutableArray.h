@@ -10,29 +10,16 @@
 NS_ASSUME_NONNULL_BEGIN
 @interface OKOWeakMutableArray<ObjectType> : NSMutableArray<ObjectType>
 
--(void) compact;
--(void) removeNilObjects; // same as compact
+// WARNING: the class only supports encoding from NSCoding,
+// decoding to an Array that doesn't hold onto it's elements doesn't make sense
+// you can decode a previously encoded OKOWeakMutableArray to an NSMutableArray instead
+- (nullable instancetype)initWithCoder:(NSCoder *)coder NS_UNAVAILABLE;
 
-#pragma mark - NSArray overrides
-- (instancetype)init;
+@end
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wnullability"
--(nullable ObjectType)objectAtIndex:(NSUInteger)index;
-#pragma clang diagnostic pop
+@interface NSArray(OKOWeakMutableArrayFactory)
 
--(NSUInteger)count;
-
-#pragma mark - NSMutableArray overrides
--(void)insertObject:(nullable ObjectType)anObject atIndex:(NSUInteger)index;
-
--(void)removeObjectAtIndex:(NSUInteger)index ;
-
--(void)addObject:(nullable ObjectType)anObject ;
-
--(void)removeLastObject;
-
--(void)replaceObjectAtIndex:(NSUInteger)index withObject:(nullable ObjectType)anObject ;
+@property (nonatomic, copy, readonly) OKOWeakMutableArray *oko_weakMutableCopy;
 
 @end
 NS_ASSUME_NONNULL_END

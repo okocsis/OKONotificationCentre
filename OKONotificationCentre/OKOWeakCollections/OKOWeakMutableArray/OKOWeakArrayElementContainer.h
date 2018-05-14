@@ -16,12 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak, readonly) NSMutableArray<OKOWeakArrayElementContainer *> *array;
 @property (nonatomic, strong, readonly) OKODeallocMonitor *deallocMonitor;
 
-
 - (nullable instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithWeakElement:(id) weakElement
                               array:(NSMutableArray<OKOWeakArrayElementContainer *> *)array NS_DESIGNATED_INITIALIZER;
 - (void)removeYourself;
-
 
 @end
 NS_ASSUME_NONNULL_END

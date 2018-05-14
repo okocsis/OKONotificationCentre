@@ -9,11 +9,9 @@
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
-@interface OKOAssociatedWeakMutableArray<ObjectType> : NSObject<NSFastEnumeration>
+@interface OKOAssociatedWeakMutableArray<ObjectType> : NSArray<ObjectType>
 
-- (ObjectType)objectAtIndex:(NSUInteger)index;
-
-- (NSUInteger)count;
+#pragma mark - Additional Public API
 
 - (void)insertObject:(ObjectType)anObject
             atIndex:(NSUInteger)index
@@ -36,13 +34,22 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - NSMutableArray(NSExtendedMutableArray)
 - (void)removeObjectsAtIndexes:(NSIndexSet *)indexes;
 
-#pragma mark - NSArray(NSExtendedArray)
+@end
 
-- (NSIndexSet *)indexesOfObjectsPassingTest:(BOOL (NS_NOESCAPE ^)(ObjectType obj, NSUInteger idx, BOOL *stop))predicate;
-- (NSIndexSet *)indexesOfObjectsWithOptions:(NSEnumerationOptions)opts
-                                passingTest:(BOOL (NS_NOESCAPE ^)(ObjectType obj, NSUInteger idx, BOOL *stop))predicate;
-- (NSIndexSet *)indexesOfObjectsAtIndexes:(NSIndexSet *)s
-                                  options:(NSEnumerationOptions)opts
-                              passingTest:(BOOL (NS_NOESCAPE ^)(ObjectType obj, NSUInteger idx, BOOL *stop))predicate;
+@interface OKOAssociatedWeakMutableArray<ObjectType> (unsupported)
+
+- (instancetype)initWithObjects:(const ObjectType _Nonnull [_Nullable])objects
+                          count:(NSUInteger)cnt NS_UNAVAILABLE;
+- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;
+
++ (instancetype)arrayWithObject:(ObjectType)anObject NS_UNAVAILABLE;
++ (instancetype)arrayWithObjects:(const ObjectType _Nonnull [_Nonnull])objects
+                           count:(NSUInteger)cnt NS_UNAVAILABLE;
++ (instancetype)arrayWithObjects:(ObjectType)firstObj, ... NS_UNAVAILABLE;
++ (instancetype)arrayWithArray:(NSArray<ObjectType> *)array NS_UNAVAILABLE;
+- (instancetype)initWithObjects:(ObjectType)firstObj, ... NS_UNAVAILABLE;
+- (instancetype)initWithArray:(NSArray<ObjectType> *)array NS_UNAVAILABLE;
+- (instancetype)initWithArray:(NSArray<ObjectType> *)array copyItems:(BOOL)flag NS_UNAVAILABLE;
+
 @end
 NS_ASSUME_NONNULL_END

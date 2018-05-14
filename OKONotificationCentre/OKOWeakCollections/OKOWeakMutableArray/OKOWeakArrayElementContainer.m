@@ -18,6 +18,10 @@
 
 @implementation OKOWeakArrayElementContainer
 
+- (nullable instancetype)init {
+    NSAssert(false, @"-init should not be used with this class");
+    return nil;
+}
 
 - (instancetype)initWithWeakElement:(id)weakElement
                               array:(NSMutableArray<OKOWeakArrayElementContainer *> *)array {

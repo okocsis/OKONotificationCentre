@@ -64,8 +64,10 @@
                                                     [NSObject new]]];
     [self.weakMutableArray addObjectsFromArray:self.regularMutableArray];
 
-    [self.weakMutableArray insertObject:nil
-                                atIndex:1];
+    XCTAssertThrowsSpecificNamed([self.weakMutableArray insertObject:nil
+                                                             atIndex:1],
+                                 NSException,
+                                 NSInternalInconsistencyException);
     XCTAssertTrue(areTheyIdentical(self.regularMutableArray, self.weakMutableArray));
 
     @autoreleasepool {
@@ -162,7 +164,10 @@
 
     NSObject *before = self.weakMutableArray[1];
 
-    self.weakMutableArray[1] = nil;
+    XCTAssertThrowsSpecificNamed([self.weakMutableArray replaceObjectAtIndex:1
+                                                                  withObject:nil],
+                                 NSException,
+                                 NSInternalInconsistencyException);
     NSObject *after = self.weakMutableArray[1];
     XCTAssertEqual(before, after);
 
@@ -174,6 +179,78 @@
 
 }
 
+- (void)testInitWithObjects {
+    [self.regularMutableArray addObjectsFromArray:@[[NSObject new],
+                                                    [NSObject new],
+                                                    [NSObject new]]];
+    // arrayWithArray triggers initWithObjects
+    OKOWeakMutableArray *arrayCopy = [OKOWeakMutableArray arrayWithArray:self.regularMutableArray];
+    XCTAssertNotEqual(arrayCopy, self.regularMutableArray);
+    @autoreleasepool {
+        [self.weakMutableArray addObjectsFromArray:self.regularMutableArray];
 
+        XCTAssertEqual(arrayCopy.count, self.regularMutableArray.count);
+        XCTAssertEqual(self.weakMutableArray.count, self.regularMutableArray.count);
+        XCTAssert(areTheyIdentical(arrayCopy, self.regularMutableArray));
+        XCTAssert(areTheyIdentical(self.weakMutableArray, self.regularMutableArray));
+
+        [self.regularMutableArray removeLastObject];
+    }
+
+    XCTAssertEqual(arrayCopy.count, self.regularMutableArray.count);
+    XCTAssertEqual(self.weakMutableArray.count, self.regularMutableArray.count);
+    XCTAssert(areTheyIdentical(arrayCopy, self.regularMutableArray));
+    XCTAssert(areTheyIdentical(self.weakMutableArray, self.regularMutableArray));
+}
+
+- (void)testWeakMutableCopy {
+    [self.regularMutableArray addObjectsFromArray:@[[NSObject new],
+                                                    [NSObject new],
+                                                    [NSObject new]]];
+    // arrayWithArray triggers initWithObjects
+    OKOWeakMutableArray *arrayCopy = self.regularMutableArray.oko_weakMutableCopy;
+    XCTAssertNotEqual(arrayCopy, self.regularMutableArray);
+    @autoreleasepool {
+        [self.weakMutableArray addObjectsFromArray:self.regularMutableArray];
+
+        XCTAssertEqual(arrayCopy.count, self.regularMutableArray.count);
+        XCTAssertEqual(self.weakMutableArray.count, self.regularMutableArray.count);
+        XCTAssert(areTheyIdentical(arrayCopy, self.regularMutableArray));
+        XCTAssert(areTheyIdentical(self.weakMutableArray, self.regularMutableArray));
+
+        [self.regularMutableArray removeLastObject];
+    }
+
+    XCTAssertEqual(arrayCopy.count, self.regularMutableArray.count);
+    XCTAssertEqual(self.weakMutableArray.count, self.regularMutableArray.count);
+    XCTAssert(areTheyIdentical(arrayCopy, self.regularMutableArray));
+    XCTAssert(areTheyIdentical(self.weakMutableArray, self.regularMutableArray));
+}
+
+- (void)testNSCoding {
+    [self.regularMutableArray addObjectsFromArray:@[[NSMutableString stringWithFormat:@"0"],
+                                                    [NSMutableString stringWithFormat:@"1"],
+                                                    [NSMutableString stringWithFormat:@"2"]]];
+    NSData *data =
+        [NSKeyedArchiver archivedDataWithRootObject:self.regularMutableArray];
+    NSMutableArray *retrievedMutableArray =
+        [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    XCTAssert([retrievedMutableArray isEqualToArray:self.regularMutableArray]);
+
+    [self.weakMutableArray addObjectsFromArray:self.regularMutableArray];
+
+    NSData *dataFromWeakArray =
+        [NSKeyedArchiver archivedDataWithRootObject:self.weakMutableArray];
+    NSMutableArray *retrievedMutableArray2 =
+        [NSKeyedUnarchiver unarchiveObjectWithData:dataFromWeakArray];
+    XCTAssert([retrievedMutableArray2 isEqualToArray:self.weakMutableArray]);
+
+    NSKeyedUnarchiver *decoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:dataFromWeakArray];
+
+    XCTAssertThrowsSpecificNamed([(id)[OKOWeakMutableArray alloc] initWithCoder:decoder],
+                                 NSException,
+                                 NSInternalInconsistencyException);
+
+}
 
 @end

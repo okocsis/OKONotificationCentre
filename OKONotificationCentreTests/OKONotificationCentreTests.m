@@ -43,8 +43,8 @@
     __weak NSObject *weakOwner = nil;
     __weak id weakBlock = nil;
     NSString *key = [self uniqueTestNameForName:@"BlockAutoRemovalOnOwnersDeath"];
-    XCTestExpectation * exp = [self expectationWithDescription:@"global block executed"];
-    XCTestExpectation * invExp = [self expectationWithDescription:@"global should not be block executed"];
+    XCTestExpectation *exp = [self expectationWithDescription:@"global block executed"];
+    XCTestExpectation *invExp = [self expectationWithDescription:@"global should not be block executed"];
     invExp.inverted = YES;
 
     @autoreleasepool {

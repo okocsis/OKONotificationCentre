@@ -198,17 +198,17 @@
         XCTAssertNotNil(weakObject2);
         XCTAssertNotNil(weakObject3);
 
-        NSIndexSet * indexes =
-        [self.associatedWeakMutableArray indexesOfObjectsPassingTest:^BOOL(NSObject * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            return (obj == weakObject) || (obj == weakObject3);
-        }];
+        NSIndexSet *indexes =
+            [self.associatedWeakMutableArray indexesOfObjectsPassingTest:^BOOL(NSObject * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                return (obj == weakObject) || (obj == weakObject3);
+            }];
         [self.associatedWeakMutableArray removeObjectsAtIndexes:indexes];
 
         XCTAssertEqual(self.associatedWeakMutableArray.count, 1);
         XCTAssertNil(weakObject);
         XCTAssertNotNil(weakObject2);
         XCTAssertNil(weakObject3);
-        XCTAssertEqual([self.associatedWeakMutableArray objectAtIndex:0], weakObject2);
+        XCTAssertEqual(self.associatedWeakMutableArray[0], weakObject2);
 
         owner = nil;
     }
@@ -221,7 +221,7 @@
     __weak NSObject *weakObj = nil;
     NSObject *owner = nil;
     __weak NSObject *weakOwner = nil;
-    OKOAssociatedWeakMutableArray * associatedWeakMutableArray = nil;
+    OKOAssociatedWeakMutableArray *associatedWeakMutableArray = nil;
     __weak OKOAssociatedWeakMutableArray *weakAssociatedWeakMutableArray = nil;
     @autoreleasepool {
         associatedWeakMutableArray = [OKOAssociatedWeakMutableArray new];
@@ -243,4 +243,7 @@
     XCTAssertNil(weakOwner);
 
 }
+
+
+
 @end

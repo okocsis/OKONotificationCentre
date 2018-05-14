@@ -18,35 +18,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation OKOWeakMutableArray
 
-#pragma mark - Public API
-- (void)compact {
-    NSLog(@"++++ compact called");
-    NSIndexSet * indexes =
-        [self.backingArray indexesOfObjectsPassingTest:
-         ^BOOL(OKOWeakArrayElementContainer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            return [self unWrap:obj] == nil;
-        }];
-
-    [self.backingArray removeObjectsAtIndexes:indexes];
-}
-
-- (void)removeNilObjects {
-    [self compact];
-}
-
 #pragma mark - Helpers
-- (OKOWeakArrayElementContainer *) wrap:(id) anObject {
++ (OKOWeakArrayElementContainer *)_wrap:(id)anObject
+                                  array:(NSMutableArray<OKOWeakArrayElementContainer *> *)array {
     NSParameterAssert(anObject);
     return [[OKOWeakArrayElementContainer alloc] initWithWeakElement:anObject
-                                                               array:self.backingArray];
+                                                               array:array];
 }
 
-- (nullable id) unWrap:(OKOWeakArrayElementContainer *) elementContainer {
++ (id)_unWrap:(OKOWeakArrayElementContainer *)elementContainer {
+    NSAssert(elementContainer.weakElement != nil,
+             @"Internal inconsistency. _unWrap should never return nil. All nil elements should be autoremoved");
     return elementContainer.weakElement;
 }
 
 #pragma mark - NSArray overrides
-
 - (instancetype)init {
     self = [super init];
     if (self) {
@@ -55,8 +41,34 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (nullable id)objectAtIndex:(NSUInteger)index {
-    return [self unWrap:self.backingArray[index]];
+- (instancetype)initWithObjects:(const id _Nonnull [_Nullable])objects
+                          count:(NSUInteger)cnt  {
+    self = [super init];
+    if (self) {
+        self.backingArray = [[NSMutableArray alloc] initWithCapacity:cnt];
+        for (NSUInteger i = 0; i < cnt; ++i) {
+            [self.backingArray addObject:[self.class _wrap:objects[i]
+                                                     array:self.backingArray]];
+        }
+    }
+    return self;
+}
+
+- (instancetype)initWithCapacity:(NSUInteger)numItems {
+    self = [super init];
+    if (self) {
+        self.backingArray = [[NSMutableArray alloc] initWithCapacity:numItems];
+    }
+    return self;
+}
+
+- (nullable instancetype)initWithCoder:(NSCoder *)coder {
+    NSAssert(false, @"-initWithCoder should not be used with this class");
+    return nil;
+}
+
+- (id)objectAtIndex:(NSUInteger)index {
+    return [self.class _unWrap:self.backingArray[index]];
 }
 
 - (NSUInteger)count {
@@ -64,39 +76,53 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - NSMutableArray overrides
-- (void)insertObject:(nullable id)anObject atIndex:(NSUInteger)index {
+- (void)insertObject:(id)anObject atIndex:(NSUInteger)index {
+    NSParameterAssert(anObject);
     if (anObject == nil) {
         return;
     }
-    [self.backingArray insertObject:[self wrap:anObject] atIndex:index];
+    [self.backingArray insertObject:[self.class _wrap:anObject
+                                                array:self.backingArray]
+                            atIndex:index];
 }
 
 - (void)removeObjectAtIndex:(NSUInteger)index {
     [self.backingArray removeObjectAtIndex:index];
 }
 
-- (void)addObject:(nullable id)anObject {
+- (void)addObject:(id)anObject {
+    NSParameterAssert(anObject);
     if (anObject == nil) {
         return;
     }
-    [self.backingArray addObject:[self wrap:anObject]];
+    [self.backingArray addObject:[self.class _wrap:anObject
+                                             array:self.backingArray]];
 }
 
 - (void)removeLastObject {
     [self.backingArray removeLastObject];
 }
 
-- (void)replaceObjectAtIndex:(NSUInteger)index withObject:(nullable id)anObject {
+- (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject {
+    NSParameterAssert(anObject);
     if (anObject == nil) {
         return;
     }
-    self.backingArray[index] = [self wrap:anObject];
+    self.backingArray[index] = [self.class _wrap:anObject
+                                           array:self.backingArray];
 }
 
 - (NSString *)description {
     return self.backingArray.description;
 }
+
 @end
 
-NS_ASSUME_NONNULL_END
+@implementation NSArray(OKOWeakMutableArrayFactory)
 
+- (OKOWeakMutableArray *)oko_weakMutableCopy {
+    return [[OKOWeakMutableArray alloc] initWithArray:self];
+}
+
+@end
+NS_ASSUME_NONNULL_END

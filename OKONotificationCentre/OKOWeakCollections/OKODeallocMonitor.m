@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation OKODeallocMonitor
 
 - (nullable instancetype)init {
-    NSAssert(false, @"");
+    NSAssert(false, @"-init should not be used with this class");
     return nil;
 }
 
