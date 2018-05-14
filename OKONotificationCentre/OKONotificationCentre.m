@@ -320,8 +320,8 @@ typedef NS_ENUM(NSUInteger, OKONotificationQueueType) {
     
     if (aKey == nil) {
         @synchronized(self.nilKeyedObserverBlockContainers) {
-            [[self class] _removeAllOccurencesOfBlock:observerBlock
-                                           inOBCArray:self.nilKeyedObserverBlockContainers];
+            [self.class _removeAllOccurencesOfBlock:observerBlock
+                                         inOBCArray:self.nilKeyedObserverBlockContainers];
         }
     } else {
         OKOAssociatedWeakMutableArray<OKOObserverBlockContainer *> *observerBlockContainersOrNil = nil;
@@ -330,8 +330,8 @@ typedef NS_ENUM(NSUInteger, OKONotificationQueueType) {
         }
         if (observerBlockContainersOrNil != nil) {
             @synchronized(observerBlockContainersOrNil) {
-                [[self class] _removeAllOccurencesOfBlock:observerBlock
-                                               inOBCArray:observerBlockContainersOrNil];
+                [self.class _removeAllOccurencesOfBlock:observerBlock
+                                             inOBCArray:observerBlockContainersOrNil];
             }
         }
     }
