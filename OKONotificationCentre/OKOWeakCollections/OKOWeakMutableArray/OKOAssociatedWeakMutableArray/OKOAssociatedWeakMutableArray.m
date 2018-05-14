@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
         element.owner = associatedOwner;
 
         const void *key = (__bridge const void * _Nonnull)(element);
-        objc_setAssociatedObject(associatedOwner, key, element, OBJC_ASSOCIATION_RETAIN);
+        objc_setAssociatedObject(associatedOwner, key, element, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
         return element;
 }
@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
     id owner = element.owner;
     const void *key = (__bridge const void * _Nonnull)(element);
-    objc_setAssociatedObject(owner, key, nil, OBJC_ASSOCIATION_RETAIN);
+    objc_setAssociatedObject(owner, key, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
 }
 

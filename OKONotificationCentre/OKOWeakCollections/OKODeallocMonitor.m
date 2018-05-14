@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
         NSObject *owner = aMonitoredObject;
         const void *key = (__bridge const void * _Nonnull)(self.spy);
         id value = spy;
-        objc_setAssociatedObject(owner, key, value, OBJC_ASSOCIATION_RETAIN);
+        objc_setAssociatedObject(owner, key, value, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
 }
 - (void)resetMonitoringFor:(NSObject *) aMonitoredObject {
@@ -97,7 +97,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSObject *owner = aMonitoredObject;
     const void *key = (__bridge const void * _Nonnull)(self.spy);
     id value = nil;
-    objc_setAssociatedObject(owner, key, value, OBJC_ASSOCIATION_RETAIN);
+    objc_setAssociatedObject(owner, key, value, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (void)stopMonitoring {
