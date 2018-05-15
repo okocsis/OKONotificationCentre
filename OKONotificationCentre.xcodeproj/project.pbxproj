@@ -15,13 +15,13 @@
 		C3D369F820973FF7003EB7C4 /* OKONotificationCentre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D369EE20973FF7003EB7C4 /* OKONotificationCentre.framework */; };
 		C3D369FD20973FF7003EB7C4 /* CommonNotificationCentreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D369FC20973FF7003EB7C4 /* CommonNotificationCentreTests.m */; };
 		C3D369FF20973FF7003EB7C4 /* OKONotificationCentre.h in Headers */ = {isa = PBXBuildFile; fileRef = C3D369F120973FF7003EB7C4 /* OKONotificationCentre.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C3D36A162097434F003EB7C4 /* OKOAssociatedWeakMutableArray.h in Headers */ = {isa = PBXBuildFile; fileRef = C3D36A0B2097434F003EB7C4 /* OKOAssociatedWeakMutableArray.h */; };
+		C3D36A162097434F003EB7C4 /* OKOAssociatedWeakMutableArray.h in Headers */ = {isa = PBXBuildFile; fileRef = C3D36A0B2097434F003EB7C4 /* OKOAssociatedWeakMutableArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C3D36A172097434F003EB7C4 /* OKOAssociatedWeakMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D36A0C2097434F003EB7C4 /* OKOAssociatedWeakMutableArray.m */; };
 		C3D36A1D2097434F003EB7C4 /* OKOWeakArrayElementContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = C3D36A0F2097434F003EB7C4 /* OKOWeakArrayElementContainer.h */; };
 		C3D36A1E2097434F003EB7C4 /* OKOWeakArrayElementContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D36A102097434F003EB7C4 /* OKOWeakArrayElementContainer.m */; };
-		C3D36A202097434F003EB7C4 /* OKOWeakMutableArray.h in Headers */ = {isa = PBXBuildFile; fileRef = C3D36A112097434F003EB7C4 /* OKOWeakMutableArray.h */; };
+		C3D36A202097434F003EB7C4 /* OKOWeakMutableArray.h in Headers */ = {isa = PBXBuildFile; fileRef = C3D36A112097434F003EB7C4 /* OKOWeakMutableArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C3D36A212097434F003EB7C4 /* OKOWeakMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D36A122097434F003EB7C4 /* OKOWeakMutableArray.m */; };
-		C3D36A26209743B8003EB7C4 /* OKODeallocMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = C3D36A24209743B7003EB7C4 /* OKODeallocMonitor.h */; };
+		C3D36A26209743B8003EB7C4 /* OKODeallocMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = C3D36A24209743B7003EB7C4 /* OKODeallocMonitor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C3D36A27209743B8003EB7C4 /* OKODeallocMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D36A25209743B8003EB7C4 /* OKODeallocMonitor.m */; };
 		C3D36A2B2097448F003EB7C4 /* OKODeallocMonitorObjectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D36A2A2097448F003EB7C4 /* OKODeallocMonitorObjectTest.m */; };
 		C3E015AC20A3540F00BC0AA6 /* CommonTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = C3E015AB20A3540F00BC0AA6 /* CommonTestCase.m */; };

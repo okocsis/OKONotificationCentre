@@ -10,18 +10,22 @@
 #import <objc/runtime.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
 @interface OKODeallocSpyingObject : NSObject
+
 @property (nonatomic, weak) id<OKODeallocMonitorObjectDelegate> delegate;
 @property (nonatomic) BOOL justBeingResetPrivately;
+
 @end
+
 @implementation OKODeallocSpyingObject
+
 - (void)dealloc {
     if (self.justBeingResetPrivately) {
         return;
     }
     [self.delegate didDeallocMonitoredObject];
 }
+
 @end
 
 @interface OKODeallocMonitor()<OKODeallocMonitorObjectDelegate> {
@@ -40,7 +44,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithMonitoredObject:(nullable NSObject *)monitoredObject {
-
     self = [super init];
     if (self) {
         [self registerMonitoredObject:monitoredObject];
@@ -89,6 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
         objc_setAssociatedObject(owner, key, value, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
 }
+
 - (void)resetMonitoringFor:(NSObject *) aMonitoredObject {
     if (aMonitoredObject == nil || self.spy == nil) {
         return;

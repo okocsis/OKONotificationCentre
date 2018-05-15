@@ -8,16 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-////! Project version number for OKONotificationCentre.
-//FOUNDATION_EXPORT double OKONotificationCentreVersionNumber;
-//
-////! Project version string for OKONotificationCentre.
-//FOUNDATION_EXPORT const unsigned char OKONotificationCentreVersionString[];
-//
-//// In this header, you should import all the public headers of your framework using statements like #import <OKONotificationCentre/PublicHeader.h>
+//! Project version number for OKONotificationCentre.
+FOUNDATION_EXPORT double OKONotificationCentreVersionNumber;
 
-//#import "OKOAssociatedWeakMutableArray.h"
+//! Project version string for OKONotificationCentre.
+FOUNDATION_EXPORT const unsigned char OKONotificationCentreVersionString[];
 
+#import <OKONotificationCentre/OKODeallocMonitor.h>
+#import <OKONotificationCentre/OKOWeakMutableArray.h>
+#import <OKONotificationCentre/OKOAssociatedWeakMutableArray.h>
 
 NS_ASSUME_NONNULL_BEGIN
 typedef void (^OKOObserverBlock)(_Nullable id sender, _Nullable id userInfo);

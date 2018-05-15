@@ -9,10 +9,11 @@
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
 @protocol OKODeallocMonitorObjectDelegate <NSObject>
+
 @required
 - (void)didDeallocMonitoredObject;
+
 @end
 
 @interface OKODeallocMonitor : NSObject
@@ -25,5 +26,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)registerMonitoredObject:(nullable NSObject *)monitoredObject;
 - (void)stopMonitoring;
+
 @end
 NS_ASSUME_NONNULL_END

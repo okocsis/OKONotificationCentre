@@ -12,7 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OKOAssociatedWeakMutableArray<ObjectType> : NSArray<ObjectType>
 
 #pragma mark - Additional Public API
-
 - (void)insertObject:(ObjectType)anObject
             atIndex:(NSUInteger)index
     associatedOwner:(NSObject *)associatedOwner;
