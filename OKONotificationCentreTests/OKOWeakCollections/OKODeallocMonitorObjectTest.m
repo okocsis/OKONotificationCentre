@@ -2,21 +2,26 @@
 //  OKODeallocMonitorObjectTest.m
 //  OKONotificationCentreTests
 //
-//  Created by Kocsis Olivér on 2018. 04. 30..
+//  Created by Oliver Kocsis on 2018. 04. 30..
 //  Copyright © 2018. okocsis. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
-#import "OKODeallocMonitor.h"
-NS_ASSUME_NONNULL_BEGIN
+@import OKONotificationCentre;
 
+NS_ASSUME_NONNULL_BEGIN
 @interface MonitorDelegate : NSObject<OKODeallocMonitorObjectDelegate>
-@property (nonatomic, strong) void(^didDeallock)(void); ;
+
+@property (nonatomic, strong) void(^didDeallock)(void);
+
 @end
+
 @implementation MonitorDelegate
+
 - (void)didDeallocMonitoredObject {
     self.didDeallock();
 }
+
 @end
 
 @interface OKODeallocMonitorObjectTest : XCTestCase
@@ -118,7 +123,6 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)testNil {
-//------------Testing simple test-----------
     XCTestExpectation *shouldNotFulfill =
         [self expectationWithDescription:@"nil_shouldFulfill"];
     shouldNotFulfill.inverted = YES;
@@ -136,7 +140,6 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)testNil2 {
-    //------------Testing simple test-----------
     XCTestExpectation *shouldNotFulfill1 =
         [self expectationWithDescription:@"nil2_shouldNotFulfill1"];
     shouldNotFulfill1.inverted = YES;
@@ -170,7 +173,6 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)testNil3 {
-    //------------Testing simple test-----------
     XCTestExpectation *shouldFulfill1 =
     [self expectationWithDescription:@"nil3_shouldNotFulfill1"];
     XCTestExpectation *shouldNotFulfill2 =
@@ -202,10 +204,4 @@ NS_ASSUME_NONNULL_END
                  enforceOrder:YES];
 }
 
-
-
-
-
 @end
-
-

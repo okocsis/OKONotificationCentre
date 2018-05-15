@@ -2,12 +2,12 @@
 //  OKOWeakMutableArrayTest.m
 //  OKONotificationCentreTests
 //
-//  Created by Kocsis Olivér on 2018. 05. 02..
+//  Created by Oliver Kocsis on 2018. 05. 02..
 //  Copyright © 2018. okocsis. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
-#import "OKOWeakMutableArray.h"
+@import OKONotificationCentre;
 #import "OKOArrayComperation.h"
 
 @interface OKOWeakMutableArrayTest : XCTestCase

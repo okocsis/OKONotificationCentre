@@ -2,7 +2,7 @@
 //  OKOArrayComperation.m
 //  OKONotificationCentreTests
 //
-//  Created by Kocsis Olivér on 2018. 05. 04..
+//  Created by Oliver Kocsis on 2018. 05. 04..
 //  Copyright © 2018. okocsis. All rights reserved.
 //
 
@@ -42,8 +42,11 @@ BOOL areTheyIdentical(NSArray *array1, NSArray *array2) {
     }
     return YES;
 }
+
 @interface OKOArrayComperation()
+
 @property (nonatomic, strong) NSMutableArray<NSObject *> *regularMutableArray;
+
 @end
 
 @implementation OKOArrayComperation
@@ -90,7 +93,6 @@ BOOL areTheyIdentical(NSArray *array1, NSArray *array2) {
                                    atIndex:1];
     testData = [testData arrayByAddingObject:insertedObj];
     XCTAssertFalse(areTheyIdentical(testData,self.regularMutableArray));
-
 }
 
 @end

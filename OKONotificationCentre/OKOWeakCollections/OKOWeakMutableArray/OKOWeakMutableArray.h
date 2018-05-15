@@ -1,8 +1,8 @@
 //
 //  OKOMutableWeakArray.h
 //
-//  Created by Kocsis Olivér on 2015. 07. 07..
-//  Copyright (c) 2018. Kocsis Oliver. All rights reserved.
+//  Created by Oliver Kocsis on 2015. 07. 07..
+//  Copyright (c) 2018. Oliver Kocsis. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

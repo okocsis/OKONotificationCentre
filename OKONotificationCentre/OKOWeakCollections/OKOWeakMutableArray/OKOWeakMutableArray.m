@@ -2,8 +2,8 @@
 //  OKOMutableWeakArray.m
 //  McK.HERO.Demo
 //
-//  Created by Kocsis Olivér on 2015. 07. 07..
-//  Copyright (c) 2015. Kocsis Oliver. All rights reserved.
+//  Created by Oliver Kocsis on 2015. 07. 07..
+//  Copyright (c) 2015. Oliver Kocsis. All rights reserved.
 //
 
 #import "OKOWeakMutableArray.h"

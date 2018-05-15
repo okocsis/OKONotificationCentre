@@ -2,7 +2,7 @@
 //  NSNotificationCenterTests.m
 //  OKONotificationCentreTests
 //
-//  Created by Kocsis Olivér on 2018. 05. 03..
+//  Created by Oliver Kocsis on 2018. 05. 03..
 //  Copyright © 2018. okocsis. All rights reserved.
 //
 
@@ -12,7 +12,6 @@
 @end
 
 @interface NSNotificationCenterTests : CommonNotificationCentreTests
-
 @end
 
 @implementation NSNotificationCenterTests

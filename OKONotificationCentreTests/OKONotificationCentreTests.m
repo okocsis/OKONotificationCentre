@@ -2,18 +2,17 @@
 //  OKONotificationCentreTests.m
 //  OKONotificationCentreTests
 //
-//  Created by Kocsis Olivér on 2018. 05. 09..
+//  Created by Oliver Kocsis on 2018. 05. 09..
 //  Copyright © 2018. okocsis. All rights reserved.
 //
 
 #import "CommonNotificationCentreTests.h"
-#import "OKONotificationCentre.h"
+@import OKONotificationCentre;
 
 @interface OKONotificationCentre(dummy)<CommonNotificationCenter>
 @end
 
 @interface OKONotificationCentreTests : CommonNotificationCentreTests
-
 @end
 
 @implementation OKONotificationCentreTests
@@ -76,8 +75,6 @@
     [self waitForExpectations:@[exp, invExp]
                       timeout:1
                  enforceOrder:YES];
-
-
 }
 
 - (void)testBlockAutoRemovalRetainCycle {
@@ -139,7 +136,6 @@
 }
 
 - (void)testSimpleApi {
-
     OKONotificationCentre *center = OKONotificationCentre.defaultCenter;
 
     for (CommonTestCase *testCase in self.testCases) {
@@ -175,27 +171,26 @@
         XCTAssertNil(weakOwner);
         [self waitForExpectations:@[exp] timeout:1];
     }
-
-
 }
 
 - (void)testAddObserver {
     [super _testAddObserver];
 }
+
 - (void)testRemoveObserver {
     [super _testRemoveObserver];
 }
+
 - (void)testRemoveObserverNameObject {
     [super _testRemoveObserverNameObject];
 }
+
 - (void)testAddObserverObjectQueueUsingBlock {
     [super _testAddObserverObjectQueueUsingBlock];
 }
 
 - (void)testPerformanceExample {
-    // This is an example of a performance test case.
     [self measureBlock:^{
-        // Put the code you want to measure the time of here.
     }];
 }
 

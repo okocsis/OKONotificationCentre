@@ -2,12 +2,12 @@
 //  OKOAssociatedWeakArrayTest.m
 //  OKONotificationCentreTests
 //
-//  Created by Kocsis Olivér on 2018. 05. 04..
+//  Created by Oliver Kocsis on 2018. 05. 04..
 //  Copyright © 2018. okocsis. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
-#import "OKOAssociatedWeakMutableArray.h"
+@import OKONotificationCentre;
 #import "OKOArrayComperation.h"
 
 @interface OKOAssociatedWeakArrayTest : XCTestCase
@@ -50,6 +50,7 @@
     }
     XCTAssertEqual(self.associatedWeakMutableArray.count, self.stronglyHoldedObjects.count);
 }
+
 - (void)testAutoRemovalOnDeallocation2 {
     __weak NSObject *weakObj = nil;
     NSObject *owner = nil;
@@ -95,6 +96,7 @@
     XCTAssertNil(weakOwner);
 
 }
+
 - (void)testAutoRemovalOnDeallocation5 {
     NSObject *owner = [NSObject new];
     __weak typeof(owner) weakOwner = owner;
@@ -241,9 +243,6 @@
 
     owner = nil;
     XCTAssertNil(weakOwner);
-
 }
-
-
 
 @end

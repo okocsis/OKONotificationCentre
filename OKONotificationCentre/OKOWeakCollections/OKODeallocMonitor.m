@@ -2,7 +2,7 @@
 //  OKODeallocMonitorObject.m
 //  CityMapperChallange
 //
-//  Created by Kocsis Olivér on 2018. 04. 20..
+//  Created by Oliver Kocsis on 2018. 04. 20..
 //  Copyright © 2018. okocsis. All rights reserved.
 //
 

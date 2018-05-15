@@ -2,7 +2,7 @@
 //  CommonTestCase.h
 //  OKONotificationCentreTests
 //
-//  Created by Kocsis Olivér on 2018. 05. 09..
+//  Created by Oliver Kocsis on 2018. 05. 09..
 //  Copyright © 2018. okocsis. All rights reserved.
 //
 
